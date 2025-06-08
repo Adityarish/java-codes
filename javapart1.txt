@@ -1,0 +1,186 @@
+Program 1:
+package q64055;
+import java.util.Scanner;
+
+class SumWithExclusion {
+    static int calculateSum(int[] arr) {
+        int sum = 0, l = -1, r = -1;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+            if (arr[i] == 6) l = i;
+            if (arr[i] == 7) r = i;
+        }
+        if (l != -1 && r != -1 && l < r) {
+            for (int i = l; i <= r; i++) {
+                sum -= arr[i];
+            }
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+        System.out.println(calculateSum(arr));
+        scanner.close();
+    }
+}
+
+
+
+
+Program 2:
+import java.util.Scanner;
+
+public class Calculator {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        float a, b;
+        String op;
+
+        a = s.nextFloat();
+        b = s.nextFloat();
+        op = s.next();
+
+        switch (op) {
+            case "+":
+                System.out.println(a + b);
+                break;
+            case "-":
+                System.out.println(a - b);
+                break;
+            case "*":
+                System.out.println(a * b);
+                break;
+            case "/":
+                if (b == 0) {
+                    System.out.println("cannot divide by zero");
+                } else {
+                    System.out.println(a / b);
+                }
+                break;
+            case "%":
+                if (b == 0) {
+                    System.out.println("cannot divide by zero");
+                } else {
+                    System.out.println(a % b);
+                }
+                break;
+            default:
+                System.out.println("invalid operator");
+        }
+
+        s.close();
+    }
+}
+
+Program 3:
+
+package q64057;
+import java.util.*;
+
+public class SmallestUnconstructibleSum {
+    public static int findSmallestUnconstructibleSum(int n, int[] nums) {
+        int sum = 1;
+        for (int i = 0; i < n && nums[i] <= sum; i++) {
+            sum += nums[i];
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+        System.out.println(findSmallestUnconstructibleSum(n, arr));
+        scanner.close();
+    }
+}
+
+
+Program 4:
+
+package q64058;
+
+public class CommandLineCheck {
+    public static void main(String[] args) {
+        int n = args.length;
+        for (int i = 0; i < n; i++) {
+            System.out.print(args[i]);
+            if (i != n - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println();
+    }
+}
+
+
+program 5:
+
+package q64063;
+
+import java.util.HashSet;
+
+public class LongestUniqueSubstring {
+
+    public static int findLongestUniqueSubstring(String a) {
+        HashSet<Character> res = new HashSet<>();
+        int n = a.length();
+        int out = 0, l = 0;
+
+        for (int r = 0; r < n; r++) {
+            while (res.contains(a.charAt(r))) {
+                res.remove(a.charAt(l));
+                l++;
+            }
+            res.add(a.charAt(r));
+            out = Math.max(out, r - l + 1);
+        }
+        return out;
+    }
+
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
+        System.out.println(findLongestUniqueSubstring(args[0]));
+    }
+}
+
+Program 6:
+
+package q64065;
+
+public class ExtractSurroundingChars {
+
+    public static String extractSurroundingCharacters(String s, String w) {
+        int sz = s.length();
+        int wz = w.length();
+        StringBuilder res = new StringBuilder();
+
+        for (int i = 0; i <= sz - wz; i++) {
+            if (s.substring(i, i + wz).equals(w)) {
+                if (i > 0) res.append(s.charAt(i - 1));
+                if (i + wz < sz) res.append(s.charAt(i + wz));
+            }
+        }
+
+        return res.toString();
+    }
+
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        String s = scanner.nextLine(); 
+        String w = scanner.nextLine(); 
+        System.out.println(extractSurroundingCharacters(s, w));
+        scanner.close();
+    }
+}
