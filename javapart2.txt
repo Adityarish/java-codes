@@ -1,0 +1,221 @@
+Program 7:
+
+import java.util.Scanner;
+class Patient {
+    String name;
+    double w, h;
+    public Patient(String name, double w, double h) {
+        this.name = name;
+        this.w = w;
+        this.h = h;
+    }
+    public double BMI() {
+        double out = (w * 703) / (h * h);
+        return Math.round(out * 100.0) / 100.0;
+    }
+}
+public class Patients {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+        double weight = scanner.nextDouble();
+        double height = scanner.nextDouble();
+        Patient patient = new Patient(name, weight, height);
+        System.out.println(patient.BMI());
+        scanner.close();
+    }
+}
+
+Program 8:
+
+import java.util.Scanner;
+class Calculator {
+    static int powerInt(int n, int m) {
+        return (int) Math.pow(n, m);
+    }
+    static double powerDouble(double n, int m) {
+        return Math.pow(n, m);
+    }
+}
+public class CalculatorProgram {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int a = s.nextInt();
+        int b = s.nextInt();
+        double c = s.nextDouble();
+        int d = s.nextInt();
+        System.out.println(Calculator.powerInt(a, b));
+        System.out.println(String.format("%.2f", Calculator.powerDouble(c, d)));
+        s.close();
+    }
+}
+
+Program 9:
+
+import java.util.Scanner;
+public class InputExceptionHandle {
+    public static void main(String[] args) {
+        String student1_name, student2_name;
+        int student1_marks[] = new int[3];
+        int student2_marks[] = new int[3];
+        int sum1 = 0, sum2 = 0;
+        float avg_marks;
+        Scanner s = new Scanner(System.in);
+        try {
+            System.out.println("Enter Student1 Name: ");
+            student1_name = s.nextLine();
+            for (int i = 0; i < 3; i++) {
+                System.out.println("Enter Student1 mark " + (i + 1) + ":");
+                student1_marks[i] = Integer.parseInt(s.next());
+                if (student1_marks[i] < 0 || student1_marks[i] > 100)
+                    throw new MarksValidationException("Marks entered are negative or outside the range (0–100)");
+                sum1 += student1_marks[i];
+            }
+            s.nextLine(); 
+            System.out.println("Enter Student2 Name: ");
+            student2_name = s.nextLine();
+            for (int i = 0; i < 3; i++) {
+                System.out.println("Enter Student2 mark " + (i + 1) + ":");
+                student2_marks[i] = Integer.parseInt(s.next());
+                if (student2_marks[i] < 0 || student2_marks[i] > 100)
+                    throw new MarksValidationException("Marks entered are negative or outside the range (0–100)");
+                sum2 += student2_marks[i];
+            }
+            avg_marks = (sum1 + sum2) / 6f;
+            System.out.println("The average marks of " + student1_name + " and " + student2_name + " is " + avg_marks);
+        } catch (NumberFormatException e) {
+            System.out.println("Entered input is not a valid format for an integer: " + e.getMessage());
+        } catch (MarksValidationException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            s.close();
+            System.out.println("Program terminated!!!");
+        }
+    }
+}
+class MarksValidationException extends Exception {
+    String msg;
+    MarksValidationException(String msg) {
+        super(msg);
+    }
+    public String toString(){
+      return msg;
+    }
+}
+
+Program 10:
+
+public class JoinExample {
+    public static void main(String[] args) {
+        DaysThread daysThread = new DaysThread();
+        daysThread.start();
+    }
+}
+class SalesPersonsThread extends Thread {
+    public void run() {
+        String[] names = {"Ram", "Hari", "Shyam", "Siddu", "Roy"};
+        for (String name : names) {
+            System.out.println("Salesperson: " + name);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("SalesPersonsThread interrupted");
+            }
+        }
+    }
+}
+class DaysThread extends Thread {
+    public void run() {
+        SalesPersonsThread salesThread = new SalesPersonsThread();
+        salesThread.start();
+        try {
+            salesThread.join();
+        } catch (InterruptedException e) {
+            System.out.println("DaysThread interrupted while waiting");
+        }
+        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        for (String day : days) {
+            System.out.println("Day: " + day);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("DaysThread interrupted");
+            }
+        }
+    }
+}
+
+Program 11:
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+public class Studentatt {
+    static HashMap<String, String> M1 = new HashMap<String, String>();
+
+    HashMap<String, String> saveUSN(String USN, String status) {
+        M1.put(USN, status);
+        return M1;
+    }
+
+    String getUSN(String USN) {
+        return M1.get(USN);
+    }
+
+    public static void main(String[] args) {
+        Studentatt stud = new Studentatt();
+
+        stud.saveUSN("S11", "present");
+        stud.saveUSN("S12", "present");
+        stud.saveUSN("S13", "present");
+        stud.saveUSN("S14", "absent");
+        stud.saveUSN("S15", "absent");
+        stud.saveUSN("S16", "absent");
+
+        System.out.println("USN 'abc' status: " + stud.getUSN("abc"));
+
+        System.out.println("\nAll entries **************");
+        Iterator<Entry<String, String>> it = M1.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String, String> pair = it.next();
+            System.out.println(pair.getKey() + " : " + pair.getValue());
+        }
+
+        System.out.println("\nUSN S13 status: " + stud.getUSN("S13"));
+        System.out.println("Contains USN S12? " + M1.containsKey("S12"));
+
+        System.out.println("USN S15 status before update: " + stud.getUSN("S15"));
+        M1.replace("S15", "present");
+        System.out.println("USN S15 status after update: " + stud.getUSN("S15"));
+    }
+}
+
+Program 12:
+
+import java.util.ArrayList;
+import java.util.List;
+public class Program12 {
+    public static void main(String[] args) {
+        int[] array = {4, 9, 6, 29, 30};
+        int count = countPairs(array);
+        System.out.println("Output: " + count);
+    }
+    public static int countPairs(int[] array) {
+        int n = array.length;
+        List<int[]> pairs = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int diff = array[j] - array[i];
+                int sumOfSquares = (i + 1) * (i + 1) + (j + 1) * (j + 1);
+                if (diff == sumOfSquares) {
+                    pairs.add(new int[]{i + 1, j + 1});
+                }
+            }
+        }
+        for (int[] pair : pairs) {
+            System.out.println("(" + pair[0] + "," + pair[1] + ")");
+        }
+        return pairs.size();
+    }
+}
